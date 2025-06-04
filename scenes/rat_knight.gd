@@ -10,7 +10,7 @@ var last_movement = Vector2.UP
 @onready var tile_map: TileMapLayer = $"../TileMapLayer"
 
 
-const tile_size: Vector2 = Vector2(64,64)#64
+#const tile_size: Vector2 = Vector2(64,64)#64#not needed but might be later
 var sprite_node_pos_tween: Tween
 
 func _physics_process(_delta: float) -> void:
@@ -30,7 +30,7 @@ func _physics_process(_delta: float) -> void:
 func move(direction: Vector2):
 	#get current tile vector2i
 	var current_tile: Vector2 = tile_map.local_to_map(global_position)
-	#gettarget tile vector2i
+	#gettarget tile vector2i, might need to change the vector2.down/left/etc to correct cords (0, -1)
 	var target_tile: Vector2i = Vector2i(
 		current_tile.x + direction.x, 
 		current_tile.y + direction.y
