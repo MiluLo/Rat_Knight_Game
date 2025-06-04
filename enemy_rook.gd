@@ -13,6 +13,10 @@ var is_moving: bool
 
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
 
+var mov = 0
+const movement_allowance = 1
+
+
 
 func _ready() -> void:
 	astar_grid = AStarGrid2D.new()
@@ -39,27 +43,29 @@ func _process(_delta: float) -> void:
 
 
 func move():
-	var path = astar_grid.get_id_path(
-		tile_map.local_to_map(global_position),
-		tile_map.local_to_map(player.global_position)
-		)
-	
-	path.pop_front()
-	
-	if path.size() == 1:
-		print("stand ready for my arrival faggot")
-		return
-	
-	if path.is_empty():
-		print("cant find path")
-		return
+	if mov == 0:
+		var path = astar_grid.get_id_path(
+			tile_map.local_to_map(global_position),
+			tile_map.local_to_map(player.global_position)
+			)
+		
+		path.pop_front()
+		
+		if path.size() == 1:
+			print("stand ready for my arrival faggot")
+			return
+		
+		if path.is_empty():
+			print("cant find path")
+			return
 
-	var original_position = Vector2(global_position)
-	
-	global_position = tile_map.map_to_local(path[0])
-	sprite.global_position = original_position
-	
-	is_moving = true
+		var original_position = Vector2(global_position)
+		
+		global_position = tile_map.map_to_local(path[0])
+		sprite.global_position = original_position
+		
+		is_moving = true
+		#mov += movement_allowance#will need to change so its only in the fight stage
 	
 
 func _physics_process(_delta: float) -> void:

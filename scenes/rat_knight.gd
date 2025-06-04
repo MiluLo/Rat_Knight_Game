@@ -17,7 +17,6 @@ func _physics_process(_delta: float) -> void:
 	if !sprite_node_pos_tween or !sprite_node_pos_tween.is_running():
 		if Input.is_action_just_pressed("up") and not $up.is_colliding():
 			move(Vector2.UP)
-			print("up")
 		if Input.is_action_just_pressed("down") and not $doown.is_colliding():
 			move(Vector2.DOWN)
 		if Input.is_action_just_pressed("left") and not $left.is_colliding():
