@@ -47,7 +47,7 @@ func move():
 	path.pop_front()
 	
 	if path.size() == 1:
-		print("I have arrived good sir")
+		print("stand ready for my arrival faggot")
 		return
 	
 	if path.is_empty():
