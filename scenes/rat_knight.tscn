@@ -1,6 +1,6 @@
 [gd_scene load_steps=28 format=3 uid="uid://vkhwvcvb0flo"]
 
-[ext_resource type="Script" uid="uid://dh207s1k05jru" path="res://scenes/rat_knight.gd" id="1_ed1tb"]
+[ext_resource type="Script" uid="uid://dh207s1k05jru" path="res://scripts/rat_knight.gd" id="1_ed1tb"]
 [ext_resource type="Texture2D" uid="uid://c2cxrdxjhlt0g" path="res://sprites/Rat_Knight.png" id="1_pyocd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ed1tb"]

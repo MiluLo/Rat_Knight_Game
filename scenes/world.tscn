@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://vkhwvcvb0flo" path="res://scenes/rat_knight.tscn" id="1_nnsk1"]
 [ext_resource type="Texture2D" uid="uid://dig5cun4s1kh6" path="res://sprites/Pixel_Sewage_Textures.png" id="2_rwgxs"]
-[ext_resource type="PackedScene" uid="uid://c60b88b0a5xra" path="res://enemy_rook.tscn" id="3_4wyf3"]
+[ext_resource type="PackedScene" uid="uid://c60b88b0a5xra" path="res://scenes/enemy_rook.tscn" id="3_4wyf3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4wyf3"]
 texture = ExtResource("2_rwgxs")

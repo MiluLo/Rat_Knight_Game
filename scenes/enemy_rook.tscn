@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://c60b88b0a5xra"]
+[gd_scene load_steps=5 format=3 uid="uid://c60b88b0a5xra"]
 
-[ext_resource type="Script" uid="uid://b86gps55hsvx6" path="res://enemy_rook.gd" id="1_wmyjb"]
+[ext_resource type="Script" uid="uid://b86gps55hsvx6" path="res://scripts/enemy_rook.gd" id="1_wmyjb"]
 [ext_resource type="Texture2D" uid="uid://dig5cun4s1kh6" path="res://sprites/Pixel_Sewage_Textures.png" id="1_wp0pf"]
+[ext_resource type="Script" uid="uid://bfpkurq4kaxsj" path="res://scripts/state_machine.gd" id="3_w2jyv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wmyjb"]
 size = Vector2(18, 21)
@@ -20,3 +21,13 @@ vframes = 3
 position = Vector2(0, -0.5)
 scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_wmyjb")
+
+[node name="state_machine" type="Node" parent="." node_paths=PackedStringArray("main")]
+script = ExtResource("3_w2jyv")
+main = NodePath("..")
+
+[node name="idle" type="Node" parent="state_machine"]
+
+[node name="attack" type="Node" parent="state_machine"]
+
+[node name="movement" type="Node" parent="state_machine"]
