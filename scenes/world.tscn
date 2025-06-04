@@ -78,7 +78,6 @@ tile_set = SubResource("TileSet_k0juu")
 [node name="TileMapLayer2" type="TileMapLayer" parent="."]
 z_index = 5
 texture_filter = 1
-tile_map_data = PackedByteArray("AAA6APz/AAACAAAAAAA9APz/AAAAAAEAAABAAPz/AAABAAEAAAAtAP//AAACAAAAAAAwAP//AAAAAAEAAAAzAP//AAABAAEAAAA=")
 tile_set = SubResource("TileSet_4wyf3")
 
 [node name="enemy_rook" parent="." instance=ExtResource("3_4wyf3")]
