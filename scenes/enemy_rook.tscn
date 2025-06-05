@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c60b88b0a5xra"]
+[gd_scene load_steps=6 format=3 uid="uid://c60b88b0a5xra"]
 
 [ext_resource type="Script" uid="uid://b86gps55hsvx6" path="res://scripts/enemy_rook.gd" id="1_wmyjb"]
 [ext_resource type="Texture2D" uid="uid://dig5cun4s1kh6" path="res://sprites/Pixel_Sewage_Textures.png" id="1_wp0pf"]
@@ -6,6 +6,8 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wmyjb"]
 size = Vector2(18, 21)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rmt5p"]
 
 [node name="enemy_rook" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_wmyjb")
@@ -31,3 +33,14 @@ main = NodePath("..")
 [node name="attack" type="Node" parent="state_machine"]
 
 [node name="movement" type="Node" parent="state_machine"]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(12.24, 7.76)
+shape = SubResource("RectangleShape2D_rmt5p")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

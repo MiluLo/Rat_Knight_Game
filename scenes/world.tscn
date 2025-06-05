@@ -61,10 +61,6 @@ turnManager = NodePath("turnManager")
 z_index = 5
 position = Vector2(-32, -32)
 
-[node name="Camera2D" type="Camera2D" parent="rat_knight"]
-position = Vector2(1, -17)
-zoom = Vector2(3, 3)
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 texture_filter = 1
@@ -89,3 +85,10 @@ position = Vector2(-672, -288)
 
 [node name="turnManager" type="Node2D" parent="."]
 script = ExtResource("5_71j4m")
+
+[node name="enemies" type="Node2D" parent="turnManager"]
+
+[node name="Timer" type="Timer" parent="turnManager"]
+
+[node name="enemy_rook2" parent="." instance=ExtResource("3_4wyf3")]
+position = Vector2(466, -286)

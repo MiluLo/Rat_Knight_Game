@@ -15,7 +15,7 @@ var is_moving: bool
 
 var mov = 0
 const movement_allowance = 1
-
+signal battle_start
 
 
 func _ready() -> void:
@@ -76,3 +76,15 @@ func _physics_process(_delta: float) -> void:
 			return
 		
 		is_moving = false
+		
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	add_to_group("Enemy")
+	GlobalSignal.battle_start.emit()
+
+
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	pass # Replace with function body.

@@ -12,8 +12,8 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func _physics_process(delta: float) -> void:
+	GlobalSignal.connect("battle_start",_on_enemy_turn_started)
 
 
 func _on_ally_turn_started():
@@ -21,8 +21,4 @@ func _on_ally_turn_started():
 
 
 func _on_enemy_turn_started():
-	var enemies = board.get_enemy()
-	if enemies.empty():
-		print("lonely")
-	else: 
-		print("hello")
+	print("hello")
