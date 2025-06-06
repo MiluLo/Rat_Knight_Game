@@ -70,7 +70,8 @@ func move():
 		
 		is_moving = true
 		
-	
+	#hello
+
 
 func _physics_process(_delta: float) -> void:
 	if is_moving:
