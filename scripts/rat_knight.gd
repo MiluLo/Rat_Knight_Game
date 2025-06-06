@@ -23,33 +23,39 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	## movement, need move func as well
-	if mov <= 0:
+	if mov <= 0.5:
 		if !sprite_node_pos_tween or !sprite_node_pos_tween.is_running():
 			if Input.is_action_just_pressed("up") and not $up.is_colliding():
 				move(Vector2.UP)
+				if player_turn:
+					mov += movement_allowance
 			if Input.is_action_just_pressed("down") and not $doown.is_colliding():
 				move(Vector2.DOWN)
+				if player_turn:
+					mov += movement_allowance
 			if Input.is_action_just_pressed("left") and not $left.is_colliding():
 				move(Vector2.LEFT)
 				sprite.flip_h = true
+				if player_turn:
+					mov += movement_allowance
 			if Input.is_action_just_pressed("right") and not $right.is_colliding():
 				move(Vector2.RIGHT)
 				sprite.flip_h = false
-		if player_turn:
-					mov + movement_allowance
-			##movement, need move func as well
-	if battle:
-		mov = 1
+				if player_turn:
+					mov += movement_allowance
 		
+			##movement, need move func as well
+	
 
 func move(direction: Vector2):
+	
 	#get current tile vector2i
 	var current_tile: Vector2 = tile_map.local_to_map(global_position)
 	#gettarget tile vector2i, might need to change the vector2.down/left/etc to correct cords (0, -1)
-	var target_tile: Vector2i = Vector2i(
+	var target_tile: Vector2 = Vector2(
 		current_tile.x + direction.x, 
 		current_tile.y + direction.y
-		)
+		)#vector2i maked it only an interger, might be needed
 	#get custom data layer from target tile
 	var tile_data: TileData = tile_map.get_cell_tile_data(target_tile)
 	
@@ -64,13 +70,16 @@ func move(direction: Vector2):
 	sprite_node_pos_tween = create_tween()
 	sprite_node_pos_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 	sprite_node_pos_tween.tween_property(sprite, "global_position", global_position, 0.15).set_trans(Tween.TRANS_SINE)
-
+	
+	
 
 
 func hello():#gotten through the global signal bus
 	battle = true
+	
 
 
 func ally_turn():
 	battle = false
 	print("player turn")
+	player_turn = true
