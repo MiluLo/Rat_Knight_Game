@@ -13,7 +13,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	GlobalSignal.connect("battle_start",_on_enemy_turn_started)
+	pass
 
 
 func _on_ally_turn_started():

@@ -39,8 +39,8 @@ func move(direction: Vector2):
 	
 	if tile_data == null or not tile_data.get_custom_data("walkable"):
 		return
-	
-	
+
+
 	global_position = tile_map.map_to_local(target_tile)
 
 	if sprite_node_pos_tween:
