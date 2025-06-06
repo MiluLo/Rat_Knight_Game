@@ -15,7 +15,7 @@ var is_moving: bool
 
 var mov = 0
 const movement_allowance = 1
-signal battle_start
+
 
 
 func _ready() -> void:
@@ -34,6 +34,10 @@ func _ready() -> void:
 			var tile_data = tile_map.get_cell_tile_data(tile_position)
 			if tile_data == null or not tile_data.get_custom_data("walkable"):
 				astar_grid.set_point_solid(tile_position)
+	
+	GlobalSignal.enemy_turn_started.connect(enemy_turn)
+	
+	
 
 func _process(_delta: float) -> void:
 	if is_moving:
@@ -65,7 +69,7 @@ func move():
 		sprite.global_position = original_position
 		
 		is_moving = true
-		#mov += movement_allowance#will need to change so its only in the fight stage
+		
 	
 
 func _physics_process(_delta: float) -> void:
@@ -82,9 +86,17 @@ func _physics_process(_delta: float) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	add_to_group("Enemy")
 	GlobalSignal.battle_start.emit()
+	mov += movement_allowance#will need to change so its only in the fight stage
 
 
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	pass # Replace with function body.
+
+func enemy_turn():
+	
+	$Timer.start()
+	await $Timer.timeout
+	print("enemy turn")
+	GlobalSignal.ally_turn_started.emit()
