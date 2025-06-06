@@ -9,15 +9,17 @@ var last_movement = Vector2.UP
 var battle: bool = false
 var mov = 0
 const movement_allowance = 0.5
+var action = 0
 
 @onready var tile_map: TileMapLayer = $"../TileMapLayer"
+
 var player_turn: bool = false
 
 #const tile_size: Vector2 = Vector2(64,64)#64#not needed but might be later
 var sprite_node_pos_tween: Tween
 
 func _ready() -> void:
-	GlobalSignal.battle_start.connect(hello)#when siganl is emitted it connects it to a func
+	GlobalSignal.battle_start.connect(battle_start)#when siganl is emitted it connects it to a func
 	GlobalSignal.ally_turn_started.connect(ally_turn)
 
 
@@ -43,9 +45,10 @@ func _physics_process(_delta: float) -> void:
 				sprite.flip_h = false
 				if player_turn:
 					mov += movement_allowance
-		
-			##movement, need move func as well
 	
+	if mov <= 0.5 and action > 0:
+		pass
+
 
 func move(direction: Vector2):
 	
@@ -62,24 +65,25 @@ func move(direction: Vector2):
 	if tile_data == null or not tile_data.get_custom_data("walkable"):
 		return
 
-
 	global_position = tile_map.map_to_local(target_tile)
+	
+	
 
 	if sprite_node_pos_tween:
 		sprite_node_pos_tween.kill()
 	sprite_node_pos_tween = create_tween()
 	sprite_node_pos_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 	sprite_node_pos_tween.tween_property(sprite, "global_position", global_position, 0.15).set_trans(Tween.TRANS_SINE)
-	
-	
 
 
-func hello():#gotten through the global signal bus
+func battle_start():#gotten through the global signal bus
 	battle = true
-	
 
 
 func ally_turn():
 	battle = false
 	print("player turn")
 	player_turn = true
+
+func actions():
+	pass

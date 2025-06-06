@@ -21,7 +21,7 @@ const movement_allowance = 1
 func _ready() -> void:
 	astar_grid = AStarGrid2D.new()
 	astar_grid.region = tile_map.get_used_rect()
-	astar_grid.cell_size = Vector2(64,64)
+	astar_grid.cell_size = Vector2(256,256)
 	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar_grid.update()
 	

@@ -183,7 +183,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hu353"]
-radius = 12.1655
+radius = 42.0119
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 3
@@ -192,7 +192,7 @@ script = ExtResource("1_ed1tb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2.38419e-07, -2.27374e-13)
-scale = Vector2(0.0729167, 0.0729167)
+scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_gqhva")
 animation = &"idle"
 frame_progress = 0.0109872
@@ -202,15 +202,16 @@ position = Vector2(-1, 4)
 shape = SubResource("CircleShape2D_hu353")
 
 [node name="doown" type="RayCast2D" parent="."]
+target_position = Vector2(0, 150)
 
 [node name="up" type="RayCast2D" parent="."]
-target_position = Vector2(0, -50)
+target_position = Vector2(0, -150)
 
 [node name="right" type="RayCast2D" parent="."]
-target_position = Vector2(50, 0)
+target_position = Vector2(150, 0)
 
 [node name="left" type="RayCast2D" parent="."]
-target_position = Vector2(-50, 0)
+target_position = Vector2(-150, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
+zoom = Vector2(0.5, 0.5)
