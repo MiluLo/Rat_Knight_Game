@@ -3,8 +3,7 @@ class_name TurnManager
 
 enum  {ALLY_TURN, ENEMY_TURN, NO_TURN}
 
-signal ally_turn_started()
-signal enemy_turn_started()
+
 
 var game_state = NO_TURN
 var enemy_state = false
@@ -16,6 +15,7 @@ var enemy_spawn = preload("res://scenes/enemy_rook.tscn").instantiate()
 func _ready() -> void:
 	GlobalSignal.battle_start.connect(battle_start)
 	GlobalSignal.ally_turn_started.connect(ally_turn)
+	GlobalSignal.enemy_turn_started.connect(enemy_turn)
 
 
 func _physics_process(delta: float) -> void:
@@ -32,10 +32,7 @@ func _physics_process(delta: float) -> void:
 			enemy_state = true
 			GlobalSignal.enemy_turn_started.emit()
 	
-	if enemy_state:
-		enemy_turn()
-	if ally_state:
-		ally_turn()
+	
 
 func enemy_turn():
 	game_state = ENEMY_TURN

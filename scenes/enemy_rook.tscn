@@ -12,6 +12,8 @@ size = Vector2(18, 21)
 [node name="enemy_rook" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_wmyjb")
 
+[node name="Timer" type="Timer" parent="."]
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 scale = Vector2(2, 2)
@@ -42,8 +44,6 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 scale = Vector2(12.24, 7.76)
 shape = SubResource("RectangleShape2D_rmt5p")
-
-[node name="Timer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

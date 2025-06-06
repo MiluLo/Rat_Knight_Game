@@ -96,7 +96,6 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 
 func enemy_turn():
 	
-	$Timer.start()
-	await $Timer.timeout
+	await get_tree().create_timer(1).timeout
 	print("enemy turn")
 	GlobalSignal.ally_turn_started.emit()
