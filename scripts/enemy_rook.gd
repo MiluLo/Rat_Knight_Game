@@ -8,15 +8,13 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
 var astar_grid: AStarGrid2D
-@onready var tile_map: TileMapLayer = $"../TileMapLayer"
+@onready var tile_map: TileMapLayer = %TileMapLayer
 var is_moving: bool
 
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
 
 var mov = 0
 const movement_allowance = 1
-
-
 
 func _ready() -> void:
 	astar_grid = AStarGrid2D.new()
@@ -35,7 +33,8 @@ func _ready() -> void:
 			if tile_data == null or not tile_data.get_custom_data("walkable"):
 				astar_grid.set_point_solid(tile_position)
 	
-	GlobalSignal.enemy_turn_started.connect(enemy_turn)
+	GlobalSignal.enemy_turn_started.connect(play_turn)
+	GlobalSignal.turn_start.connect(turn_start)
 	
 	
 
@@ -95,8 +94,11 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	pass # Replace with function body.
 
-func enemy_turn():
-	
-	await get_tree().create_timer(1).timeout
-	print("enemy turn")
-	GlobalSignal.ally_turn_started.emit()
+func play_turn():
+	await get_tree().create_timer(2).timeout
+
+	GlobalSignal.turn_over.emit()
+
+
+func turn_start():
+	print("working")

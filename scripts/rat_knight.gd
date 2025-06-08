@@ -11,7 +11,8 @@ var mov = 0
 const movement_allowance = 0.5
 var action = 0
 
-@onready var tile_map: TileMapLayer = $"../TileMapLayer"
+@onready var tile_map: TileMapLayer = %TileMapLayer
+
 
 var player_turn: bool = false
 
@@ -19,8 +20,11 @@ var player_turn: bool = false
 var sprite_node_pos_tween: Tween
 
 func _ready() -> void:
-	GlobalSignal.battle_start.connect(battle_start)#when siganl is emitted it connects it to a func
-	GlobalSignal.ally_turn_started.connect(ally_turn)
+	GlobalSignal.turn_start.connect(turn_start, CONNECT_ONE_SHOT)
+	GlobalSignal.character_change.connect(character_change, CONNECT_ONE_SHOT)
+	#GlobalSignal.battle_start.connect(battle_start)#when siganl is emitted it connects it to a func
+	#GlobalSignal.ally_turn_started.connect(play_turn)
+	
 
 
 func _physics_process(_delta: float) -> void:
@@ -79,11 +83,22 @@ func move(direction: Vector2):
 func battle_start():#gotten through the global signal bus
 	battle = true
 
-
-func ally_turn():
+func play_turn():
 	battle = false
-	print("player turn")
 	player_turn = true
+	await get_tree().create_timer(2).timeout
+	GlobalSignal.turn_over.emit()
 
 func actions():
 	pass
+
+func turn_start():
+	print("working")
+	battle = false
+	player_turn = true
+	await get_tree().create_timer(2).timeout
+	character_change()
+	GlobalSignal.turn_over.emit()
+
+func character_change():
+	GlobalSignal.character_change.emit()
