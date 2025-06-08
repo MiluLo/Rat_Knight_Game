@@ -4,6 +4,11 @@ const tile_size: Vector2 = Vector2(64,64)#64
 
 @onready var sprite: Sprite2D = $Sprite2D
 
+@export var statemachine: Node
+
+
+
+
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
@@ -33,8 +38,8 @@ func _ready() -> void:
 			if tile_data == null or not tile_data.get_custom_data("walkable"):
 				astar_grid.set_point_solid(tile_position)
 	
-	GlobalSignal.enemy_turn_started.connect(play_turn)
-	GlobalSignal.turn_start.connect(turn_start)
+	
+	
 	
 	
 
@@ -42,7 +47,7 @@ func _process(_delta: float) -> void:
 	if is_moving:
 		return
 		
-	move()
+	
 
 
 func move():
@@ -84,7 +89,7 @@ func _physics_process(_delta: float) -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	add_to_group("Enemy")
+	#add_to_group("Enemy")
 	GlobalSignal.battle_start.emit()
 	mov += movement_allowance#will need to change so its only in the fight stage
 
@@ -94,11 +99,24 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	pass # Replace with function body.
 
-func play_turn():
-	await get_tree().create_timer(2).timeout
-
-	GlobalSignal.turn_over.emit()
+#func play_turn():
+	#print("ENEMY")
+	#await get_tree().create_timer(2).timeout
+#
+	#GlobalSignal.turn_over.emit()
 
 
 func turn_start():
-	print("working")
+	#print("ENEMY")
+	
+	await get_tree().create_timer(2).timeout
+	
+	GlobalSignal.turn_over.emit()
+	GlobalSignal.enemy_turn_over.emit()
+	
+	character_change()
+	print("turn over")
+
+func character_change():
+	GlobalSignal.character_change.emit()
+	GlobalSignal.turn_over.emit()

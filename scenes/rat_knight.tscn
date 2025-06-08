@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://vkhwvcvb0flo"]
+[gd_scene load_steps=29 format=3 uid="uid://vkhwvcvb0flo"]
 
 [ext_resource type="Script" uid="uid://dh207s1k05jru" path="res://scripts/rat_knight.gd" id="1_ed1tb"]
 [ext_resource type="Texture2D" uid="uid://c2cxrdxjhlt0g" path="res://sprites/Rat_Knight.png" id="1_pyocd"]
+[ext_resource type="Script" uid="uid://cubl1qa5kxteq" path="res://scripts/statemachine.gd" id="3_48h40"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ed1tb"]
 atlas = ExtResource("1_pyocd")
@@ -185,10 +186,11 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_hu353"]
 radius = 42.0119
 
-[node name="player" type="CharacterBody2D" groups=["player"]]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("statemachine") groups=["player"]]
 collision_layer = 3
 motion_mode = 1
 script = ExtResource("1_ed1tb")
+statemachine = NodePath("statemachine")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2.38419e-07, -2.27374e-13)
@@ -215,3 +217,8 @@ target_position = Vector2(-150, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
+
+[node name="statemachine" type="Node" parent="."]
+script = ExtResource("3_48h40")
+
+[node name="move" type="Node" parent="statemachine"]

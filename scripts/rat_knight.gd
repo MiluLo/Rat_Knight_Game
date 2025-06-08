@@ -2,6 +2,11 @@ extends CharacterBody2D
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+@export var statemachine: Node
+
+
+
+
 const SPEED = 300.0
 const JUMP_VELOCITY = -300.0
 var last_movement = Vector2.UP
@@ -93,12 +98,14 @@ func actions():
 	pass
 
 func turn_start():
-	print("working")
+	print("turnstart")
 	battle = false
 	player_turn = true
+	
 	await get_tree().create_timer(2).timeout
 	character_change()
 	GlobalSignal.turn_over.emit()
+	print("turn over")
 
 func character_change():
 	GlobalSignal.character_change.emit()

@@ -9,8 +9,10 @@ var game_state = NO_TURN
 var enemy_state = false
 var ally_state = false
 
-var current = 0 
-var chachange = true
+var current: int = 0
+var add = 1
+var chachange = false
+var enechange = true
 
 var active_character
 
@@ -19,64 +21,91 @@ var enemy_spawn = preload("res://scenes/enemy_rook.tscn").instantiate()
 
 func _ready() -> void:
 	
-	GlobalSignal.ally_turn_started.connect(ally_turn)
+	#GlobalSignal.ally_turn_started.connect(ally_turn)
 	GlobalSignal.enemy_turn_started.connect(enemy_turn, CONNECT_ONE_SHOT)
 	GlobalSignal.turn_over.connect(turn_over, CONNECT_ONE_SHOT)
 	GlobalSignal.turn_start.connect(turn_start, CONNECT_ONE_SHOT)
 	GlobalSignal.character_change.connect(character_change, CONNECT_ONE_SHOT)
+	GlobalSignal.enemy_turn_over.connect(enemy_turn_over, CONNECT_ONE_SHOT)
 	
-	get_battlers()
+	get_battlers(0)
 
 
 func _physics_process(delta: float) -> void:
-	match game_state:
-		NO_TURN: 
-			ally_state = false
-			enemy_state = false
-		ALLY_TURN: 
-			ally_state = true
-			GlobalSignal.ally_turn_started.emit()
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	print(enemies)
+	enemy_turn()
+	#match game_state:
+		#NO_TURN: 
+			#ally_state = false
+			#enemy_state = false
+		#ALLY_TURN: 
+			#ally_state = true
+			#GlobalSignal.ally_turn_started.emit()
+		#
+		#ENEMY_TURN: 
+			#enemy_state = true
+			#GlobalSignal.enemy_turn_started.emit()
+	
+	#if chachange:
+		#print("BS")
+		#active_character.turn_start()
+	
 		
-		ENEMY_TURN: 
-			enemy_state = true
-			GlobalSignal.enemy_turn_started.emit()
 	
+	#print(active_character)
 	
-
-func _process(delta: float) -> void:
-	if chachange:
-		active_character.turn_start()
-	else:
-		return
-
-
-
 
 func enemy_turn():
-	game_state = ENEMY_TURN
-	
+	get_tree().call_group("enemies", "move")
 
-func ally_turn():
-	game_state = ALLY_TURN
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+func _process(delta: float) -> void:
+	turn_start()
+
 
 
 
 func turn_over():
+	chachange = false
+	var new_index: int = active_character.get_index() + add
+	add += 1
 	
-	var new_index = active_character.get_index() + 1
-	await get_tree().create_timer(2).timeout
-	active_character = new_index
+	get_battlers(new_index)
 	
-	print(active_character)
 	
 func turn_start():
-	print("working1")
-	active_character.method(turn_start)
+	if chachange:
+		active_character.turn_start()
+	
+	if not chachange:
+		await get_tree().create_timer(3).timeout
+		chachange = true
+	
 	
 
-func get_battlers():
-	active_character = get_child(0)
+func get_battlers(new_index):
+	active_character = get_child(new_index)
 
 func character_change():
 	chachange = false
+	current += add 
+	
+	
+func enemy_turn_over():
+	chachange = false
+	

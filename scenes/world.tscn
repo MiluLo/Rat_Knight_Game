@@ -94,8 +94,8 @@ script = ExtResource("5_71j4m")
 z_index = 5
 position = Vector2(-384, 128)
 
-[node name="enemy_rook2" parent="turnManager" instance=ExtResource("3_4wyf3")]
-position = Vector2(384, -384)
-
 [node name="enemy_rook" parent="turnManager" instance=ExtResource("3_4wyf3")]
 position = Vector2(-896, -640)
+
+[node name="enemy_rook2" parent="turnManager" instance=ExtResource("3_4wyf3")]
+position = Vector2(384, -384)
