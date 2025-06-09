@@ -100,6 +100,7 @@ func play_turn():
 	player_turn = true
 	await get_tree().create_timer(2).timeout
 	if battle and not player_turn:
+		print("player turn over")
 		GlobalSignal.turn_over.emit()
 
 

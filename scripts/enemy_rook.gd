@@ -89,7 +89,8 @@ func move():
 		
 		is_moving = true
 		
-	#hello
+		mov += movement_allowance#will need to change so its only in the fight stage
+
 
 
 func _physics_process(_delta: float) -> void:
@@ -106,24 +107,12 @@ func _physics_process(_delta: float) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	#add_to_group("Enemy")
 	GlobalSignal.battle_start.emit()
-	mov += movement_allowance#will need to change so its only in the fight stage
+	
 	area.set_deferred("monitoring", false)
 
 
-
-
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	pass # Replace with function body.
-
-#func play_turn():
-	#print("ENEMY")
-	#await get_tree().create_timer(2).timeout
-#
-	#GlobalSignal.turn_over.emit()
-
-
 func play_turn():
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(2).timeout
 	mov = 0
 	print("ENEMY")
 	move()

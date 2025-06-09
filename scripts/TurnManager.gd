@@ -65,37 +65,22 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if battle:
-		battle = false
 		for character in characters:
+			battle = false
 			character.play_turn()
-			await character.play_turn()
-
-
-
+			await get_tree().create_timer(6).timeout
+			battle = true
 
 func battle_start():
 	battle = true
 
 func turn_over():
-	battle = true
+	pass
+	#battle = true
 
 
 
-#func turn_over():
-	#chachange = false
-	#var new_index: int = active_character.get_index() + add
-	#add += 1
-	#
-	#get_battlers()
-#func turn_start():
-	#if chachange:
-		#active_character.turn_start()
-	#
-	#if not chachange:
-		#await get_tree().create_timer(3).timeout
-		#chachange = true
-	
-	
+
 
 func get_battlers():
 	characters = get_children()
