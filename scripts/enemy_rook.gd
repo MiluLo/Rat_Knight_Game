@@ -3,10 +3,10 @@ extends CharacterBody2D
 const tile_size: Vector2 = Vector2(64,64)#64
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var area: Area2D = $Area2D
+
 
 @export var statemachine: Node
-
-
 
 
 const SPEED = 300.0
@@ -52,17 +52,32 @@ func _process(_delta: float) -> void:
 
 func move():
 	if mov == 0:
+		var enemies = get_tree().get_nodes_in_group("enemy")
+		var occupied_positions = []
+
+		for enemy in enemies:
+			if enemy == self:
+				continue
+
+			occupied_positions.append(tile_map.local_to_map(enemy.global_position))
+		
+		for occupied_position in occupied_positions:
+			astar_grid.set_point_solid(occupied_position)#set enemies solid
+
 		var path = astar_grid.get_id_path(
 			tile_map.local_to_map(global_position),
 			tile_map.local_to_map(player.global_position)
 			)
 		
+		for occupied_position in occupied_positions:
+			astar_grid.set_point_solid(occupied_position, false)#unset enemies
+
 		path.pop_front()
-		
+
 		if path.size() == 1:
 			print("stand ready for my arrival faggot")
 			return
-		
+
 		if path.is_empty():
 			print("cant find path")
 			return
@@ -92,6 +107,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	#add_to_group("Enemy")
 	GlobalSignal.battle_start.emit()
 	mov += movement_allowance#will need to change so its only in the fight stage
+	area.set_deferred("monitoring", false)
 
 
 
@@ -107,17 +123,12 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 
 
 func play_turn():
+	await get_tree().create_timer(1).timeout
 	mov = 0
 	print("ENEMY")
 	move()
 	await get_tree().create_timer(2).timeout
 	
 	GlobalSignal.turn_over.emit()
-	GlobalSignal.enemy_turn_over.emit()
-	
-	character_change()
-	print("turn over")
 
-func character_change():
-	GlobalSignal.character_change.emit()
-	GlobalSignal.turn_over.emit()
+	print("turn over")

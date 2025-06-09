@@ -24,7 +24,7 @@ func _ready() -> void:
 	
 	GlobalSignal.battle_start.connect(battle_start, CONNECT_ONE_SHOT)
 	#GlobalSignal.enemy_turn_started.connect(enemy_turn, CONNECT_ONE_SHOT)
-	#GlobalSignal.turn_over.connect(turn_over, CONNECT_ONE_SHOT)
+	GlobalSignal.turn_over.connect(turn_over, CONNECT_ONE_SHOT)
 	#GlobalSignal.turn_start.connect(turn_start, CONNECT_ONE_SHOT)
 	#GlobalSignal.character_change.connect(character_change, CONNECT_ONE_SHOT)
 	GlobalSignal.enemy_turn_over.connect(enemy_turn_over, CONNECT_ONE_SHOT)
@@ -69,14 +69,15 @@ func _process(delta: float) -> void:
 		for character in characters:
 			character.play_turn()
 			await character.play_turn()
-			battle = true
+
 
 
 
 func battle_start():
 	battle = true
 
-
+func turn_over():
+	battle = true
 
 
 

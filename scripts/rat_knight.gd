@@ -57,7 +57,11 @@ func _physics_process(_delta: float) -> void:
 					mov += movement_allowance
 	
 	if mov <= 0.5 and action > 0:
-		pass
+		player_turn = false
+		battle = true
+	
+	if battle:
+		print("test")
 
 
 func move(direction: Vector2):
@@ -97,6 +101,7 @@ func play_turn():
 	await get_tree().create_timer(2).timeout
 	if battle and not player_turn:
 		GlobalSignal.turn_over.emit()
+
 
 func actions():
 	pass
