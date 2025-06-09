@@ -19,14 +19,15 @@ var action = 0
 @onready var tile_map: TileMapLayer = %TileMapLayer
 
 
+
 var player_turn: bool = false
 
 #const tile_size: Vector2 = Vector2(64,64)#64#not needed but might be later
 var sprite_node_pos_tween: Tween
 
-func _ready() -> void:
-	GlobalSignal.turn_start.connect(turn_start, CONNECT_ONE_SHOT)
-	GlobalSignal.character_change.connect(character_change, CONNECT_ONE_SHOT)
+#func _ready() -> void:
+	#GlobalSignal.turn_start.connect(turn_start, CONNECT_ONE_SHOT)
+	#GlobalSignal.character_change.connect(character_change, CONNECT_ONE_SHOT)
 	#GlobalSignal.battle_start.connect(battle_start)#when siganl is emitted it connects it to a func
 	#GlobalSignal.ally_turn_started.connect(play_turn)
 	
@@ -89,23 +90,26 @@ func battle_start():#gotten through the global signal bus
 	battle = true
 
 func play_turn():
+	mov = 0
+	print("rat_knight")
 	battle = false
 	player_turn = true
 	await get_tree().create_timer(2).timeout
-	GlobalSignal.turn_over.emit()
+	if battle and not player_turn:
+		GlobalSignal.turn_over.emit()
 
 func actions():
 	pass
 
-func turn_start():
-	print("turnstart")
-	battle = false
-	player_turn = true
-	
-	await get_tree().create_timer(2).timeout
-	character_change()
-	GlobalSignal.turn_over.emit()
-	print("turn over")
+#func turn_start():
+	#print("turnstart")
+	#battle = false
+	#player_turn = true
+	#
+	#await get_tree().create_timer(2).timeout
+	#character_change()
+	#GlobalSignal.turn_over.emit()
+	#print("turn over")
 
 func character_change():
 	GlobalSignal.character_change.emit()

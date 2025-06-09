@@ -106,9 +106,10 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 	#GlobalSignal.turn_over.emit()
 
 
-func turn_start():
-	#print("ENEMY")
-	
+func play_turn():
+	mov = 0
+	print("ENEMY")
+	move()
 	await get_tree().create_timer(2).timeout
 	
 	GlobalSignal.turn_over.emit()
