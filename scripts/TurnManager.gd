@@ -18,6 +18,8 @@ var characters
 
 var enemy_spawn = preload("res://scenes/enemy_rook.tscn").instantiate()
 
+
+
 var battle: bool = false
 
 func _ready() -> void:

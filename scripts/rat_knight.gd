@@ -15,8 +15,15 @@ var battle: bool = false
 var mov = 0
 const movement_allowance = 0.5
 var action = 0
+var aiming = false
+
 
 @onready var tile_map: TileMapLayer = %TileMapLayer
+
+@onready var attack_aim: RayCast2D = $"attack aim"
+
+@onready var v_box: VBoxContainer = $CanvasLayer/VBoxContainer
+@onready var attack_range: ColorRect = $ColorRect
 
 
 
@@ -25,7 +32,8 @@ var player_turn: bool = false
 #const tile_size: Vector2 = Vector2(64,64)#64#not needed but might be later
 var sprite_node_pos_tween: Tween
 
-#func _ready() -> void:
+func _ready() -> void:
+	attack_range.visible = false
 	#GlobalSignal.turn_start.connect(turn_start, CONNECT_ONE_SHOT)
 	#GlobalSignal.character_change.connect(character_change, CONNECT_ONE_SHOT)
 	#GlobalSignal.battle_start.connect(battle_start)#when siganl is emitted it connects it to a func
@@ -57,11 +65,22 @@ func _physics_process(_delta: float) -> void:
 					mov += movement_allowance
 	
 	if mov <= 0.5 and action > 0:
+		print("test")
 		player_turn = false
 		battle = true
 	
-	if battle:
-		print("test")
+	#if battle:
+		#print("test")
+	if player_turn:
+		v_box.visible = true
+	else:
+		v_box.visible = false
+	
+	if aiming and player_turn:
+		print("aim true")
+		attack_aim.look_at(get_global_mouse_position())
+		if Input.is_action_just_pressed("select") and attack_aim.is_colliding():
+			print(get_global_mouse_position())
 
 
 func move(direction: Vector2):
@@ -98,24 +117,25 @@ func play_turn():
 	print("rat_knight")
 	battle = false
 	player_turn = true
+	attack()
 	await get_tree().create_timer(2).timeout
 	#if battle and not player_turn:
-	print("player turn over")
+	
 	GlobalSignal.turn_over.emit()
+	await get_tree().create_timer(5).timeout #sets timer for when ui turns off on end of turn
+	print("player turn over")
+	player_turn = false
 
-
-func actions():
-	pass
-
-#func turn_start():
-	#print("turnstart")
-	#battle = false
-	#player_turn = true
-	#
-	#await get_tree().create_timer(2).timeout
-	#character_change()
-	#GlobalSignal.turn_over.emit()
-	#print("turn over")
+func attack():
+	print("test")
 
 func character_change():
 	GlobalSignal.character_change.emit()
+
+func _on_attack_pressed() -> void:
+	aiming = true
+	attack_range.visible = true
+	print("test")
+	#if action <= 0:
+#a		Input.
+	
