@@ -11,6 +11,7 @@ const tile_size: Vector2 = Vector2(64,64)#64
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
+var hp = 2
 
 var astar_grid: AStarGrid2D
 @onready var tile_map: TileMapLayer = %TileMapLayer
@@ -129,3 +130,9 @@ func play_turn():
 
 func attack():
 	print("you are run down")
+
+func update_health():
+	hp -= 1
+	print("ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+	if hp <= 0:
+		queue_free()

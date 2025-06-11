@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ixb78tuaw83o"]
+
+[ext_resource type="Texture2D" uid="uid://tg81lvb1511t" path="res://sprites/New Piskel.png" id="1_ym7su"]
+
+[node name="Sprite2D" type="Sprite2D"]
+texture = ExtResource("1_ym7su")
