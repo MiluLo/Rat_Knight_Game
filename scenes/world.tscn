@@ -99,3 +99,9 @@ position = Vector2(-896, -640)
 
 [node name="enemy_rook2" parent="turnManager" instance=ExtResource("3_4wyf3")]
 position = Vector2(384, -384)
+
+[node name="enemy_rook3" parent="turnManager" instance=ExtResource("3_4wyf3")]
+position = Vector2(-1152, 128)
+
+[node name="enemy_rook4" parent="turnManager" instance=ExtResource("3_4wyf3")]
+position = Vector2(640, 384)
