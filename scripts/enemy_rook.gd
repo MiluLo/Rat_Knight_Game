@@ -19,7 +19,7 @@ var is_moving: bool
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
 
 var mov = 0
-const movement_allowance = 1
+const movement_allowance = 2
 
 func _ready() -> void:
 	astar_grid = AStarGrid2D.new()
@@ -77,6 +77,8 @@ func move():
 		if path.size() == 1:
 			print("stand ready for my arrival faggot")
 			return
+			
+		
 
 		if path.is_empty():
 			print("cant find path")
@@ -89,7 +91,10 @@ func move():
 		
 		is_moving = true
 		
-		mov += movement_allowance#will need to change so its only in the fight stage
+		if path.size() == 2:
+			attack()
+			return
+	mov += movement_allowance#will need to change so its only in the fight stage
 
 
 
@@ -112,12 +117,15 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func play_turn():
-	await get_tree().create_timer(2).timeout
+	#await get_tree().create_timer(2).timeout
 	mov = 0
 	print("ENEMY")
 	move()
 	await get_tree().create_timer(2).timeout
 	
-	GlobalSignal.turn_over.emit()
+	#GlobalSignal.turn_over.emit()
 
 	print("turn over")
+
+func attack():
+	print("you are run down")

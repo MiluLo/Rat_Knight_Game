@@ -67,8 +67,14 @@ func _process(delta: float) -> void:
 	if battle:
 		for character in characters:
 			battle = false
+			var timer = 0
+			if character.is_in_group("player"):
+				timer = 5
+			if character.is_in_group("enemy"):
+				timer = 1
 			character.play_turn()
-			await get_tree().create_timer(6).timeout
+			await character.play_turn(); "completed"
+			await get_tree().create_timer(timer).timeout
 			battle = true
 
 func battle_start():
@@ -78,17 +84,12 @@ func turn_over():
 	pass
 	#battle = true
 
-
-
-
-
 func get_battlers():
 	characters = get_children()
 
 #func character_change():
 	#chachange = false
 	#current += add 
-	
 	
 func enemy_turn_over():
 	chachange = false
