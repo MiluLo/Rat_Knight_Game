@@ -22,6 +22,7 @@ var is_moving: bool
 
 var mov = 0
 const movement_allowance = 2
+var battle: bool = false
 
 func _ready() -> void:
 	astar_grid = AStarGrid2D.new()
@@ -39,10 +40,12 @@ func _ready() -> void:
 			var tile_data = tile_map.get_cell_tile_data(tile_position)
 			if tile_data == null or not tile_data.get_custom_data("walkable"):
 				astar_grid.set_point_solid(tile_position)
+	GlobalSignal.battle_start.connect(battle_start, CONNECT_ONE_SHOT)
 
 func _process(_delta: float) -> void:
 	if is_moving:
 		return
+
 
 func move():
 	if mov == 0:
@@ -131,3 +134,6 @@ func update_health():
 	print("ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
 	if hp <= 0:
 		queue_free()
+
+func battle_start():
+	area.set_deferred("monitoring", false)
