@@ -4,12 +4,10 @@ extends CharacterBody2D
 
 @export var statemachine: Node
 
-
-
-
 const SPEED = 300.0
 const JUMP_VELOCITY = -300.0
 var hp = 5
+var potions: int = 0
 var last_movement = Vector2.UP
 
 var battle: bool = false
@@ -40,8 +38,6 @@ func _ready() -> void:
 	#GlobalSignal.character_change.connect(character_change, CONNECT_ONE_SHOT)
 	#GlobalSignal.battle_start.connect(battle_start)#when siganl is emitted it connects it to a func
 	#GlobalSignal.ally_turn_started.connect(play_turn)
-	
-
 
 func _physics_process(_delta: float) -> void:
 	## movement, need move func as well
@@ -91,7 +87,6 @@ func _physics_process(_delta: float) -> void:
 			#enemy_selection.global_position = Vector2(position1)
 			print(position1)
 
-
 func move(direction: Vector2):
 	
 	#get current tile vector2i
@@ -108,15 +103,12 @@ func move(direction: Vector2):
 		return
 
 	global_position = tile_map.map_to_local(target_tile)
-	
-	
 
 	if sprite_node_pos_tween:
 		sprite_node_pos_tween.kill()
 	sprite_node_pos_tween = create_tween()
 	sprite_node_pos_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 	sprite_node_pos_tween.tween_property(sprite, "global_position", global_position, 0.15).set_trans(Tween.TRANS_SINE)
-
 
 func battle_start():#gotten through the global signal bus
 	battle = true
@@ -137,7 +129,7 @@ func play_turn():
 	aiming = false
 	ui = false
 	mov = 1
-
+	attack_range.visible = false
 
 func character_change():
 	GlobalSignal.character_change.emit()
@@ -147,8 +139,23 @@ func _on_attack_pressed() -> void:
 	attack_range.visible = true
 	print("test")
 	#if action <= 0:
-#a		Input.
+		#Input.
 
 func update_health():
 	hp -= 1
 	print(hp)
+
+func add_potion():
+	print("you've got potion!")
+	potions += 1
+	print(hp)
+
+func _on_heal_pressed() -> void:
+	if potions > 0 and hp < 5:
+		hp += 1
+		print("that felt great!")
+		potions -= 1
+	elif hp == 5:
+		print("Im already feeling good")
+	elif potions <= 0:
+		print("I aint got that cheif")

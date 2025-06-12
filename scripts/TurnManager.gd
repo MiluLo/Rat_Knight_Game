@@ -69,4 +69,3 @@ func get_battlers():
 	
 func enemy_turn_over():
 	chachange = false
-	
