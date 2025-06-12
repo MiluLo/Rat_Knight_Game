@@ -36,43 +36,17 @@ func _ready() -> void:
 
 #func _physics_process(delta: float) -> void:
 	#print(characters)
-	#var enemies = get_tree().get_nodes_in_group("enemy")
-	#print(enemies)
-	#enemy_turn()
-	#match game_state:
-		#NO_TURN: 
-			#ally_state = false
-			#enemy_state = false
-		#ALLY_TURN: 
-			#ally_state = true
-			#GlobalSignal.ally_turn_started.emit()
-		#
-		#ENEMY_TURN: 
-			#enemy_state = true
-			#GlobalSignal.enemy_turn_started.emit()
 	
-	#if chachange:
-		#print("BS")
-		#active_character.turn_start()
-	
-		
-	
-	#print(active_character)
-	
-
-#func enemy_turn():
-	#get_tree().call_group("enemies", "move")
-
-
-
 func _process(delta: float) -> void:
 	if battle:
 		for character in characters:
+			if character == null:
+				character = characters.front()
 			battle = false
 			var timer = 0
 			if character.is_in_group("player"):
 				timer = 5
-			if character.is_in_group("enemy"):
+			elif character.is_in_group("enemy"):
 				timer = 1
 			character.play_turn()
 			await character.play_turn(); "completed"

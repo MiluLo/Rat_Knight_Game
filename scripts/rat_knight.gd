@@ -9,6 +9,7 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -300.0
+var hp = 5
 var last_movement = Vector2.UP
 
 var battle: bool = false
@@ -25,7 +26,7 @@ var enemy_selection = preload("res://scenes/enemy selection border.tscn")
 @onready var v_box: VBoxContainer = $CanvasLayer/VBoxContainer
 @onready var attack_range: ColorRect = $ColorRect
 
-
+var ui: bool = false
 
 var player_turn: bool = false
 
@@ -34,6 +35,7 @@ var sprite_node_pos_tween: Tween
 
 func _ready() -> void:
 	attack_range.visible = false
+	GlobalSignal.damage1.connect(update_health, CONNECT_ONE_SHOT)
 	#GlobalSignal.turn_start.connect(turn_start, CONNECT_ONE_SHOT)
 	#GlobalSignal.character_change.connect(character_change, CONNECT_ONE_SHOT)
 	#GlobalSignal.battle_start.connect(battle_start)#when siganl is emitted it connects it to a func
@@ -71,7 +73,7 @@ func _physics_process(_delta: float) -> void:
 	
 	#if battle:
 		#print("test")
-	if player_turn:
+	if ui:
 		v_box.visible = true
 	else:
 		v_box.visible = false
@@ -82,6 +84,9 @@ func _physics_process(_delta: float) -> void:
 		if Input.is_action_just_pressed("select") and attack_aim.is_colliding():
 			attack_aim.get_collider().update_health()
 			var position1 = tile_map.local_to_map(get_global_mouse_position())
+			aiming = false
+			ui = false
+			attack_range.visible = false
 			#enemy_selection.instantiate()
 			#enemy_selection.global_position = Vector2(position1)
 			print(position1)
@@ -121,7 +126,7 @@ func play_turn():
 	print("rat_knight")
 	battle = false
 	player_turn = true
-	attack()
+	ui = true
 	await get_tree().create_timer(2).timeout
 	#if battle and not player_turn:
 	
@@ -129,9 +134,10 @@ func play_turn():
 	await get_tree().create_timer(5).timeout #sets timer for when ui turns off on end of turn
 	print("player turn over")
 	player_turn = false
+	aiming = false
+	ui = false
+	mov = 1
 
-func attack():
-	print("test")
 
 func character_change():
 	GlobalSignal.character_change.emit()
@@ -142,4 +148,7 @@ func _on_attack_pressed() -> void:
 	print("test")
 	#if action <= 0:
 #a		Input.
-	
+
+func update_health():
+	hp -= 1
+	print(hp)

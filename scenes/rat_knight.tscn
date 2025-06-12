@@ -187,7 +187,8 @@ animations = [{
 radius = 42.0119
 
 [node name="player" type="CharacterBody2D" node_paths=PackedStringArray("statemachine") groups=["player"]]
-collision_layer = 3
+collision_layer = 2
+collision_mask = 0
 motion_mode = 1
 script = ExtResource("1_ed1tb")
 statemachine = NodePath("statemachine")
@@ -205,16 +206,18 @@ position = Vector2(-1, 4)
 shape = SubResource("CircleShape2D_hu353")
 
 [node name="doown" type="RayCast2D" parent="."]
-target_position = Vector2(0, 150)
+target_position = Vector2(-1, 227)
 
 [node name="up" type="RayCast2D" parent="."]
-target_position = Vector2(0, -150)
+visible = false
+target_position = Vector2(-1, -212)
 
 [node name="right" type="RayCast2D" parent="."]
-target_position = Vector2(150, 0)
+target_position = Vector2(298, 0)
 
 [node name="left" type="RayCast2D" parent="."]
-target_position = Vector2(-150, 0)
+z_index = 1
+target_position = Vector2(-302, 0)
 
 [node name="statemachine" type="Node" parent="."]
 script = ExtResource("3_48h40")
@@ -222,14 +225,14 @@ script = ExtResource("3_48h40")
 [node name="move" type="Node" parent="statemachine"]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -226.0
-offset_top = -163.0
-offset_right = 228.0
-offset_bottom = 168.0
-color = Color(0.75, 0.113281, 0.113281, 1)
+offset_left = -317.0
+offset_top = -306.0
+offset_right = 314.0
+offset_bottom = 261.0
+color = Color(0.74902, 0.113725, 0.113725, 0.407843)
 
 [node name="attack aim" type="RayCast2D" parent="."]
-target_position = Vector2(300, 0)
+target_position = Vector2(380, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

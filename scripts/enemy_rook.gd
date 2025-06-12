@@ -5,16 +5,17 @@ const tile_size: Vector2 = Vector2(64,64)#64
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var area: Area2D = $Area2D
 
-
 @export var statemachine: Node
-
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 var hp = 2
+var attack1: int
 
 var astar_grid: AStarGrid2D
 @onready var tile_map: TileMapLayer = %TileMapLayer
+@onready var attack_aim: RayCast2D = $attack_aim
+
 var is_moving: bool
 
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
@@ -28,28 +29,20 @@ func _ready() -> void:
 	astar_grid.cell_size = Vector2(256,256)
 	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar_grid.update()
-	
+
 	var region_size = astar_grid.region.size
 	var region_position = astar_grid.region.position
-	
+
 	for x in region_size.x:
 		for y in region_size.y:
 			var tile_position = Vector2i(x + region_position.x,y + region_position.y)
 			var tile_data = tile_map.get_cell_tile_data(tile_position)
 			if tile_data == null or not tile_data.get_custom_data("walkable"):
 				astar_grid.set_point_solid(tile_position)
-	
-	
-	
-	
-	
 
 func _process(_delta: float) -> void:
 	if is_moving:
 		return
-		
-	
-
 
 func move():
 	if mov == 0:
@@ -69,17 +62,16 @@ func move():
 			tile_map.local_to_map(global_position),
 			tile_map.local_to_map(player.global_position)
 			)
-		
+
 		for occupied_position in occupied_positions:
 			astar_grid.set_point_solid(occupied_position, false)#unset enemies
 
 		path.pop_front()
 
 		if path.size() == 1:
+			attack()
 			print("stand ready for my arrival faggot")
 			return
-			
-		
 
 		if path.is_empty():
 			print("cant find path")
@@ -93,10 +85,8 @@ func move():
 		is_moving = true
 		
 		if path.size() == 2:
-			attack()
 			return
 	mov += movement_allowance#will need to change so its only in the fight stage
-
 
 
 func _physics_process(_delta: float) -> void:
@@ -107,8 +97,6 @@ func _physics_process(_delta: float) -> void:
 			return
 		
 		is_moving = false
-		
-
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	#add_to_group("Enemy")
@@ -116,20 +104,27 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	
 	area.set_deferred("monitoring", false)
 
-
 func play_turn():
 	#await get_tree().create_timer(2).timeout
 	mov = 0
 	print("ENEMY")
 	move()
-	await get_tree().create_timer(2).timeout
-	
+	await get_tree().create_timer(4).timeout
+	attack1 = 0
+	attack()
 	#GlobalSignal.turn_over.emit()
 
 	print("turn over")
 
 func attack():
-	print("you are run down")
+	if attack1 == 0:
+		attack_aim.look_at(player.global_position)
+		if attack_aim.is_colliding():
+			attack_aim.enabled = false
+			attack1 += 1
+			attack_aim.get_collider().update_health()
+			GlobalSignal.damage1.emit()
+		print("you are run down")
 
 func update_health():
 	hp -= 1

@@ -9,6 +9,7 @@ size = Vector2(45.5, 52.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rmt5p"]
 
 [node name="enemy_rook" type="CharacterBody2D" groups=["enemy"]]
+collision_mask = 2
 script = ExtResource("1_wmyjb")
 
 [node name="Timer" type="Timer" parent="."]
@@ -41,5 +42,9 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 scale = Vector2(34, 28.28)
 shape = SubResource("RectangleShape2D_rmt5p")
+
+[node name="attack_aim" type="RayCast2D" parent="."]
+target_position = Vector2(326, 0)
+collision_mask = 2
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
