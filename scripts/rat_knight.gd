@@ -15,6 +15,7 @@ var mov = 0
 const movement_allowance = 0.5
 var action = 0
 var aiming = false
+var amount = 1 #damage to enemies on hit
 
 var enemy_selection = preload("res://scenes/enemy selection border.tscn")
 @onready var tile_map: TileMapLayer = %TileMapLayer
@@ -78,7 +79,8 @@ func _physics_process(_delta: float) -> void:
 		print("aim true")
 		attack_aim.look_at(get_global_mouse_position())
 		if Input.is_action_just_pressed("select") and attack_aim.is_colliding():
-			attack_aim.get_collider().update_health()
+			
+			attack_aim.get_collider().update_health(amount)
 			var position1 = tile_map.local_to_map(get_global_mouse_position())
 			aiming = false
 			ui = false

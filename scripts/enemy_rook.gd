@@ -129,8 +129,8 @@ func attack():
 			GlobalSignal.damage1.emit()
 		print("you are run down")
 
-func update_health():
-	hp -= 1
+func update_health(amount):#need to find a better way for damage
+	hp -= amount
 	print("ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
 	if hp <= 0:
 		queue_free()
